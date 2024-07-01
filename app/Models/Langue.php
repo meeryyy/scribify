@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Langue extends Model
 {
     use HasFactory;
+    public function histoire()
+    {
+        return $this->hasMany(Histoire::class);
+    }
 }

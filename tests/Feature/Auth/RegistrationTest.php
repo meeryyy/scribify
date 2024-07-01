@@ -3,12 +3,13 @@
 namespace Tests\Feature\Auth;
 
 use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions; // Utilisation de transactions de base de données pour réinitialiser l'état de la base de données après chaque test
 
     public function test_registration_screen_can_be_rendered(): void
     {

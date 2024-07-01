@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_picture'
     ];
 
     /**
@@ -32,6 +33,30 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+
+
+  
+
+
+
+
+
+  public  function getImageProfil() {
+ if($this->profile_picture) {
+    return url("storage/".$this->profile_picture) ;
+ }
+
+ return "https://pbs.twimg.com/media/EYVxlOSXsAExOpX.jpg" ;
+  }
+
+
+
+
+  public function histoires()
+  {
+      return $this->hasMany(Histoire::class,'user_id');
+  }
 
     /**
      * The attributes that should be cast.

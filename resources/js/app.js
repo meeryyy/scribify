@@ -20,6 +20,12 @@ btn.addEventListener('click', toggleTheme);
 
 // Function to set the default theme based on local storage
 const setDefaultTheme = () => {
+    
+    if(localStorage.getItem('darkMode')) {
+
+  
+
+
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     // Set the default theme based on the stored value
     if (isDarkMode) {
@@ -27,7 +33,10 @@ const setDefaultTheme = () => {
     } else {
         htmlElement.classList.remove('dark');
     }
-};
-
+}else {
+    localStorage.setItem('darkMode',"true")
+    htmlElement.classList.toggle('dark');
+}
+}   
 // Set the default theme when the page loads
 setDefaultTheme();

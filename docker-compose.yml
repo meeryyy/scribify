@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel_api_prod
+    container_name: laravel_api_prod
+    restart: unless-stopped
+    working_dir: /var/www/app
+    environment:
+      APP_ENV: production
+      APP_DEBUG: false
+      APP_KEY: base64:fxxCAJ/EFwJ7ISpcz47AREWeMisMyqsJV5eSguY2/9g=
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: bymap
+      DB_USERNAME: laravel
+      DB_PASSWORD: laravel
+    volumes:
+      - .:/var/www/app
+      - ./vendor:/var/www/app/vendor
+    networks:
+      - laravel
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    container_name: laravel_mysql_prod
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: scribi
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD:
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - laravel
+
+  nginx:
+    image: nginx:alpine
+    container_name: laravel_nginx_prod
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/app
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Ensure this path is correct
+    networks:
+      - laravel
+    depends_on:
+      - app
+
+volumes:
+  mysql_data:
+
+networks:
+  laravel:
+    driver: bridge
